@@ -29,7 +29,6 @@
         <br />
         <br />
         <br />
-        Errors:<br />
         <asp:Label ID="errorLabel" runat="server"></asp:Label>
     
     </div>
