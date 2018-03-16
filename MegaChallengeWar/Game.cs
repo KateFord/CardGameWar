@@ -8,81 +8,53 @@ namespace MegaChallengeWar
     public class Game  {
         private Player _player1;
         private Player _player2;
-        private Deck _deck;
-        private int _turn { get; set; }
 
-        public Game(string player1Name, string player2Name) {
+        public Game(string player1Name, string player2Name)
+        {
             this._player1 = new Player();
             this. _player1.Name = player1Name;
             this. _player2 = new Player();
             this._player2.Name = player2Name;
-            this. _deck = new Deck();
-            this._turn = 0;
          }
 
-        public string GameOfWar()
+        public string Play()
         {
-            _deck.SetupDeck();
-            _deck.Shuffle();
-            _deck.Deal(_player1, _player2);
+            
+            Deck deck = new Deck();
+            deck.Shuffle();
 
-            playTurn(false);
-            return displayResults();
-        }
+            string result = "<h3>Dealing cards ...<h3>";
+            deck.Deal(this._player1, this._player2);
 
-         private void playTurn(bool war)  {
+            result += "<h3>Begin battle ...<h3>";
+            int turn = 0;
 
-            while (this._turn <= 10 && _player1.Cards.Count > 0 && _player2.Cards.Count > 0)
+            while (_player1.Cards.Count > 0 && _player2.Cards.Count > 0)
             {
-                if (war)
-                    battle(4);
-                else  {
-                    battle(1);
-                    this._turn++;  }
-                evaluateBattle();
-            }
-         }
 
-        private void battle(int cardCount)
-        {
-            addCardsToBounty(_player1, cardCount);
-            addCardsToBounty(_player2, cardCount);
+                Battle battle = new Battle();
+                battle.doBattle(this._player1, this._player2);
+                turn++;
+                if (turn > 10) break;
+            }
+
+            determineWinner();
+            return result;
+
         }
 
-        private void evaluateBattle()  //REFACTOR
-        {
-            if (_player1.Bounty.Last().ValueInt > _player2.Bounty.Last().ValueInt)
-            {
-                addBountyToCards(_player1);
-                playTurn(false);
-            }
-            else if (_player1.Bounty.Last().ValueInt < _player2.Bounty.Last().ValueInt)
-            {
-                addBountyToCards(_player2);
-                playTurn(false);
-            }
-            else if (_player1.Bounty.Last().ValueInt == _player2.Bounty.Last().ValueInt) 
-                playTurn(true);
-        }
-      
-        private void addCardsToBounty(Player player, int numberOfCards)
-        {
-            for (int i = 1;  i <= numberOfCards; i++) {
-                player.Bounty.Add(player.Cards.First()); 
-                player.Cards.RemoveAt(0);
-            }
-        }
- 
-        private void addBountyToCards(Player winningPlayer)  {
-            winningPlayer.Cards.AddRange(_player1.Bounty);
-            winningPlayer.Cards.AddRange(_player2.Bounty);
-            _player1.Bounty.Clear();
-            _player2.Bounty.Clear();
-        }
-
-        private string displayResults()
+        private string determineWinner()
         {
             string result = "";
+
+            if (this._player1.Cards.Count > this._player2.Cards.Count)
+                result += "<br/>Player 1 wins";
+            else if (this._player1.Cards.Count < this._player2.Cards.Count)
+                result += "<br/>Player 2 wins";
+            else result += "";
+
+            result += "<br/>Player 1: " + this._player1.Cards.Count + "Player 2: " + this._player2.Cards.Count;
+
             return result;
         }
 

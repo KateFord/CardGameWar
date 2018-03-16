@@ -17,8 +17,7 @@ namespace MegaChallengeWar
         protected void okButton_Click(object sender, EventArgs e)
         {
             Game game = new Game("Player1", "Player2");
-            string result = game.GameOfWar();
-            resultLabel.Text = result;
+            resultLabel.Text = game.Play();
         }
     }
 }
