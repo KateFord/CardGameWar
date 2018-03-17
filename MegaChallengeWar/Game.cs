@@ -24,7 +24,7 @@ namespace MegaChallengeWar
             deck.Shuffle();
 
             string result = "<h3>Dealing cards ...<h3>";
-            deck.Deal(this._player1, this._player2);
+            result += deck.Deal(this._player1, this._player2);
 
             result += "<h3>Begin battle ...<h3>";
             int turn = 0;
@@ -33,27 +33,29 @@ namespace MegaChallengeWar
             {
 
                 Battle battle = new Battle();
-                battle.doBattle(this._player1, this._player2);
+                result += battle.doBattle(this._player1, this._player2);
                 turn++;
                 if (turn > 10) break;
             }
 
-            determineWinner();
+            result += determineWinner();
             return result;
 
         }
 
         private string determineWinner()
         {
-            string result = "";
+            string result = "<br/><br/>&nbsp;&nbsp;<span style='font-size:30px;'>";
 
             if (this._player1.Cards.Count > this._player2.Cards.Count)
-                result += "<br/>Player 1 wins";
+                  result += "<span style='color:red;font-weight:bolder;'>Player 1 wins!</span>";
             else if (this._player1.Cards.Count < this._player2.Cards.Count)
-                result += "<br/>Player 2 wins";
+                result += "<span style='color:blue;font-weight:bolder;'>Player 2 wins!</span>";
             else result += "";
 
-            result += "<br/>Player 1: " + this._player1.Cards.Count + "Player 2: " + this._player2.Cards.Count;
+            result += "</span>";
+            result += "   (<span style='color:red;font-weight:bolder;'>Player 1: " + this._player1.Cards.Count
+           + "</span>  /  <span style='color:blue;font-weight:bolder;'>Player 2: " + this._player2.Cards.Count + "<span/>)";
 
             return result;
         }
