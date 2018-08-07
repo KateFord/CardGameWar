@@ -1,4 +1,4 @@
-# Card Game of War
+# Card Game War
 
 
 An object oriented solution to a 2 player card game called "War" utilizing ASP.NET MVC in Visual Studio. A large amount of my time was spent mapping out the relationships between the classes and the game logic which I feel really paid off by the time I began coding the solution.  
